@@ -1,6 +1,7 @@
 import pyvisa
 import matplotlib.pyplot as plt
 import time
+import csv
 
 rm = pyvisa.ResourceManager("@py")
 
@@ -43,3 +44,6 @@ for voltage, current in zip(voltages, currents):
 
 with open('metingen.csv', 'w', newline='') as csvfile:
     writer = csv.writer(csvfile)
+    writer.writerow(['voltage', 'current'])
+    for voltage, current in zip(voltages, currents):
+        writer.writerow([voltage, current])
