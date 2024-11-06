@@ -5,9 +5,11 @@ import numpy as np
 print(list_resources())
 
 class DiodeExperiment:
+    def __init__(self):
+        pass
 
-    def scan(start, stop, repeats):
-        device = ArduinoVISADevice(port="ASRL8::INSTR")
+    def scan(self, start, stop, repeats):
+        device = ArduinoVISADevice(port="ASRL9::INSTR")
 
         voltage_avrs = []
         current_avrs = []
