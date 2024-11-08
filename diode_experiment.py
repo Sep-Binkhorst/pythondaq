@@ -9,7 +9,7 @@ class DiodeExperiment:
         pass
 
     def scan(self, start, stop, repeats):
-        device = ArduinoVISADevice(port="ASRL9::INSTR")
+        device = ArduinoVISADevice(port="ASRL8::INSTR")
 
         voltage_avrs = []
         current_avrs = []
