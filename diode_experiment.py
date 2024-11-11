@@ -5,10 +5,22 @@ import numpy as np
 print(list_resources())
 
 class DiodeExperiment:
+    """_Samenvatting_
+    """
     def __init__(self):
         pass
 
     def scan(self, start, stop, repeats):
+        """_Functie dat de gemiddelde spanning, stroom en de fouten berekent voor een experiment dat een aantal keer herhaald kan worden_
+
+        Args:
+            start (_integer_): _raw waarde voor de voltage waar je wilt beginnen met meten_
+            stop (_integer_): _raw waarde voor de voltage waar je wilt stoppen met meten_
+            repeats (_integer_): _hoeveelheid dat je dit experiment wilt uitvoeren_
+
+        Returns:
+            _gemiddelden en fouten_: _lijsten met de gemiddelden van de spanning, stroom en van beide ook de fouten_
+        """
         device = ArduinoVISADevice(port="ASRL8::INSTR")
 
         voltage_avrs = []
