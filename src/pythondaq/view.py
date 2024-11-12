@@ -1,4 +1,4 @@
-from diode_experiment import DiodeExperiment
+from pythondaq.diode_experiment import DiodeExperiment
 import matplotlib.pyplot as plt
 
 diodeexperiment = DiodeExperiment()
