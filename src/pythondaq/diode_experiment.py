@@ -1,5 +1,4 @@
 from pythondaq.arduino_device import ArduinoVISADevice, list_resources
-import math
 import numpy as np
 
 print(list_resources())

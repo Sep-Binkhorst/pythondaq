@@ -1,5 +1,4 @@
 import pyvisa
-import csv
 
 rm = pyvisa.ResourceManager("@py")
 
@@ -68,6 +67,4 @@ class ArduinoVISADevice:
         raw = self.device.query(f"MEAS:CH{channel}?")
         voltage = float(raw) * (3.3/1024)
         return voltage
-
-help(ArduinoVISADevice)
 
