@@ -12,12 +12,10 @@ def main():
     plt.ylabel('Current (A)')
     plt.show()
 
+    with open('metingen.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['Voltages', 'Currents', 'V_errors', 'C_errors'])
+        for voltage, current, v_error, c_error in zip(voltages, currents, v_errors, c_errors):
+            writer.writerow([voltage, current, v_error, c_error])
+
     return voltages, currents, v_errors, c_errors
-
-voltages, currents, v_errors, c_errors = main()
-
-with open('metingen.csv', 'w', newline='') as csvfile:
-    writer = csv.writer(csvfile)
-    writer.writerow(['Voltages', 'Currents', 'V_errors', 'C_errors'])
-    for voltage, current, v_error, c_error in zip(voltages, currents, v_errors, c_errors):
-        writer.writerow([voltage, current, v_error, c_error])

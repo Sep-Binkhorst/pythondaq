@@ -1,7 +1,6 @@
 from pythondaq.arduino_device import ArduinoVISADevice, list_resources
 import numpy as np
 
-print(list_resources())
 
 class DiodeExperiment:
     """_Samenvatting_
@@ -47,6 +46,7 @@ class DiodeExperiment:
 
                 current_led = voltage_u2 / 220
                 currents.append(current_led)
+            
 
             #Standaardafwijking berekenen van dit aantal metingen
             volt_dev = np.std(voltages)
@@ -64,6 +64,8 @@ class DiodeExperiment:
 
         volt_devs_avrs = []
         curt_devs_avrs = []
+
+        device.set_output_value(0)
 
         #Wortel N wet gebruiken voor het berekenen van de fouten
         for dev in volt_devs:
