@@ -9,7 +9,7 @@ class DiodeExperiment:
         pass
 
     def scan(self, start, stop, repeats, port):
-        """_Functie dat de gemiddelde spanning, stroom en de fouten berekent voor een experiment dat een aantal keer herhaald kan worden_
+        """_Function that calculates the average voltages, currents and errors for a predetermined experiment._
 
         Args:
             start (_integer_): _raw value for the voltage where you want to start measuring
@@ -17,7 +17,7 @@ class DiodeExperiment:
             repeats (_integer_): _amount of times you want this experiment to be repeated_
 
         Returns:
-            _gemiddelden en fouten_: _lists with the averages of the voltages, currents and the errors on both these lists_
+            _Averages and errors_: _lists with the averages of the voltages, currents and the errors on both these lists_
         """
         device = ArduinoVISADevice(port)
 
