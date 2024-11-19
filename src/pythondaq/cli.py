@@ -12,11 +12,26 @@ def cmd_group():
 
 @cmd_group.command("")
 
-def list():
+@click.option(
+    '--s',
+    '--search',
+    default=None,
+    help='',
+    show_default = True
+)
+
+def list(s):
     """This function creates a list of all connected devices.
     """
     print(f"Work in progress, list devices")
-    print(list_resources())
+    if s == None:
+        print(list_resources())
+    else:
+        list = list_resources()
+        for port in list:
+            if f"{s}" in port:
+                print(port)
+    
 
 @cmd_group.command("info")
 
@@ -28,7 +43,7 @@ def info(name):
     Args:
         name (string): NAME of the device you wish to have information of.
     """
-    device = ArduinoVISADevice(name)
+    device = ArduinoVISADevice(f"ASRL{name}::INSTR")
     print(device.get_identification())
     
 @cmd_group.command("")
@@ -68,12 +83,12 @@ def scan(start, stop, repeats, output, port, graph):
         stop (integer): Ending value for the range you want to measure.
         repeats (integer): Amount of times you want to repeat your measurements.
         output (string): Name of the csv file of your measurements.
-        port (string): Name of the port of your device.
+        port (integer): Name of the port of your device.
     """
     print(f"Work in progress, scan LED")
 
     diodeexperiment = DiodeExperiment()
-    voltages, currents, v_errors, c_errors = diodeexperiment.scan(int(start), int(stop), int(repeats), port)
+    voltages, currents, v_errors, c_errors = diodeexperiment.scan(int(start), int(stop), int(repeats), f"ASRL{port}::INSTR")
 
     print(voltages)
     print(currents)
@@ -87,7 +102,7 @@ def scan(start, stop, repeats, output, port, graph):
     
     if graph:
         plt.figure()
-        plt.plot(voltages, currents, 'o')
+        plt.errorbar(voltages, currents, xerr=v_errors, yerr=c_errors, fmt='o', ecolor='r')
         plt.xlabel('Voltage (V)')
         plt.ylabel('Current (A)')
         plt.show()

@@ -10,6 +10,8 @@ python = "^3.12"
 matplotlib = "^3.9.2"
 click = "^8.1.7"
 pyvisa-py = "^0.7.2"
+zeroconf = "^0.136.0"
+psutil = "^6.1.0"
 
 
 [build-system]
