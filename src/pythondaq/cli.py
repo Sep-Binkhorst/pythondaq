@@ -1,5 +1,6 @@
 from pythondaq.arduino_device import list_resources, ArduinoVISADevice
 from pythondaq.diode_experiment import DiodeExperiment
+import matplotlib.pyplot as plt
 import click
 import csv
 
@@ -56,8 +57,10 @@ def info(name):
 
 @click.argument("port")
 
+@click.option('--graph/--no-graph', default=False)
 
-def scan(start, stop, repeats, output, port):
+
+def scan(start, stop, repeats, output, port, graph):
     """Scan function for the voltages and currents of your connected device. 
 
     Args:
@@ -81,3 +84,10 @@ def scan(start, stop, repeats, output, port):
             writer.writerow(['Voltages', 'Currents'])
             for voltage, current in zip(voltages, currents):
                 writer.writerow([voltage, current])
+    
+    if graph:
+        plt.figure()
+        plt.plot(voltages, currents, 'o')
+        plt.xlabel('Voltage (V)')
+        plt.ylabel('Current (A)')
+        plt.show()
