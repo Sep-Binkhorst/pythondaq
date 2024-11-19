@@ -12,6 +12,8 @@ def cmd_group():
 @cmd_group.command("")
 
 def list():
+    """This function creates a list of all connected devices.
+    """
     print(f"Work in progress, list devices")
     print(list_resources())
 
@@ -20,6 +22,11 @@ def list():
 @click.argument("name")
 
 def info(name):
+    """This function shows information about your chosen device with name NAME.
+
+    Args:
+        name (string): NAME of the device you wish to have information of.
+    """
     device = ArduinoVISADevice(name)
     print(device.get_identification())
     
@@ -27,6 +34,7 @@ def info(name):
 @click.option(
     "--start",
     default=0,
+    help='Starting value for the range you want to measure.',
     show_default=True
 )
 
@@ -35,20 +43,35 @@ def info(name):
 @click.option(
     "--repeats",
     default=1,
+    help='Amount of times you wish to repeat your measurements.',
     show_default=True
 )
 
 @click.option(
     "--output",
-    default=None
+    default=None,
+    help='Name for the csv file you wish to create.',
+    show_default=True
 )
 
 @click.argument("port")
 
+
 def scan(start, stop, repeats, output, port):
+    """Scan function for the voltages and currents of your connected device. 
+
+    Args:
+        start (integer): Starting value for where you want to start measuring.
+        stop (integer): Ending value for the range you want to measure.
+        repeats (integer): Amount of times you want to repeat your measurements.
+        output (string): Name of the csv file of your measurements.
+        port (string): Name of the port of your device.
+    """
     print(f"Work in progress, scan LED")
+
     diodeexperiment = DiodeExperiment()
     voltages, currents, v_errors, c_errors = diodeexperiment.scan(int(start), int(stop), int(repeats), port)
+
     print(voltages)
     print(currents)
 
