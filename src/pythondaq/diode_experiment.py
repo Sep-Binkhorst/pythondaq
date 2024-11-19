@@ -3,7 +3,7 @@ import numpy as np
 
 
 class DiodeExperiment:
-    """_Samenvatting_
+    """Class that can perform an experiment with the function scan() using the Arduino.
     """
     def __init__(self):
         pass
@@ -12,12 +12,12 @@ class DiodeExperiment:
         """_Functie dat de gemiddelde spanning, stroom en de fouten berekent voor een experiment dat een aantal keer herhaald kan worden_
 
         Args:
-            start (_integer_): _raw waarde voor de voltage waar je wilt beginnen met meten_
-            stop (_integer_): _raw waarde voor de voltage waar je wilt stoppen met meten_
-            repeats (_integer_): _hoeveelheid dat je dit experiment wilt uitvoeren_
+            start (_integer_): _raw value for the voltage where you want to start measuring
+            stop (_integer_): _raw value for the voltage where you want to stop measuring
+            repeats (_integer_): _amount of times you want this experiment to be repeated_
 
         Returns:
-            _gemiddelden en fouten_: _lijsten met de gemiddelden van de spanning, stroom en van beide ook de fouten_
+            _gemiddelden en fouten_: _lists with the averages of the voltages, currents and the errors on both these lists_
         """
         device = ArduinoVISADevice(port)
 
@@ -27,13 +27,13 @@ class DiodeExperiment:
         volt_devs = []
         curt_devs = []
 
-        #Over alle voltages een aantal keer de metingen doen
+        #Perform measurements within a predetermined range
         for voltage in range(start, stop):
 
             voltages = []
             currents = []
 
-            #Het aantal metingen wordt bepaald door de waarde van repeats
+            #Perform all these measurements a certain amount of times.
             for repeat in range(0, repeats):
 
                 device.set_output_value(value=voltage)
@@ -48,14 +48,14 @@ class DiodeExperiment:
                 currents.append(current_led)
             
 
-            #Standaardafwijking berekenen van dit aantal metingen
+            #Calcute the standard deviation over these measurements
             volt_dev = np.std(voltages)
             curt_dev = np.std(currents)
 
             volt_devs.append(volt_dev)
             curt_devs.append(curt_dev)
 
-            #Gemiddelden berekenen van de voltages en currents
+            #Calculate the average errors of your voltages and currents
             voltage_avr = sum(voltages) / len(voltages)
             current_avr = sum(currents) / len(currents)
 
@@ -67,7 +67,7 @@ class DiodeExperiment:
 
         device.set_output_value(0)
 
-        #Wortel N wet gebruiken voor het berekenen van de fouten
+        #Use the N**2 rule to calculate the final errors and put them in lists
         for dev in volt_devs:
             volt_dev_avr = dev/(repeats**0.5)
             volt_devs_avrs.append(volt_dev_avr)

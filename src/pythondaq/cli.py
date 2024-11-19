@@ -83,7 +83,7 @@ def scan(start, stop, repeats, output, port, graph):
         stop (integer): Ending value for the range you want to measure.
         repeats (integer): Amount of times you want to repeat your measurements.
         output (string): Name of the csv file of your measurements.
-        port (integer): Name of the port of your device.
+        port (Integer): Name of the port of your device.
     """
     print(f"Work in progress, scan LED")
 

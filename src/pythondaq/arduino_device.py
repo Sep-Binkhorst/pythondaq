@@ -7,7 +7,7 @@ def list_resources():
     return ports
 
 class ArduinoVISADevice:
-    """_Samenvatting_
+    """Class that has functions that can communicate with the Arduino.
     """
     def __init__(self, port):
         """_
