@@ -8,7 +8,7 @@ class DiodeExperiment:
     def __init__(self):
         pass
 
-    def scan(self, start, stop, repeats):
+    def scan(self, start, stop, repeats, port):
         """_Functie dat de gemiddelde spanning, stroom en de fouten berekent voor een experiment dat een aantal keer herhaald kan worden_
 
         Args:
@@ -19,7 +19,7 @@ class DiodeExperiment:
         Returns:
             _gemiddelden en fouten_: _lijsten met de gemiddelden van de spanning, stroom en van beide ook de fouten_
         """
-        device = ArduinoVISADevice(port="ASRL8::INSTR")
+        device = ArduinoVISADevice(port)
 
         voltage_avrs = []
         current_avrs = []
