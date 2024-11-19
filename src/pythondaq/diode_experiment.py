@@ -27,6 +27,10 @@ class DiodeExperiment:
         volt_devs = []
         curt_devs = []
 
+        #Change the unit of your voltage from Volts to raw-value
+        start = start * (1023/3.3)
+        stop = stop * (1023/3.3)
+
         #Perform measurements within a predetermined range
         for voltage in range(start, stop):
 
@@ -67,7 +71,7 @@ class DiodeExperiment:
 
         device.set_output_value(0)
 
-        #Use the N**2 rule to calculate the final errors and put them in lists
+        #Use the square root of N rule to calculate the final errors and put them in lists
         for dev in volt_devs:
             volt_dev_avr = dev/(repeats**0.5)
             volt_devs_avrs.append(volt_dev_avr)

@@ -9,7 +9,6 @@ import csv
 def cmd_group():
     pass
 
-
 @cmd_group.command("")
 
 @click.option(
@@ -33,7 +32,7 @@ def list(s):
                 print(port)
     
 
-@cmd_group.command("info")
+@cmd_group.command("")
 
 @click.argument("name")
 
@@ -50,12 +49,18 @@ def info(name):
 @click.option(
     "--start",
     default=0,
-    help='Starting value for the range you want to measure.',
+    help='Starting value of the range you want to measure.',
+    type=click.FloatRange(0, 3.3),
     show_default=True
 )
 
-@click.argument("stop")
-
+@click.option(
+    "--stop",
+    default=1023,
+    help='Ending value of the range you want to measure.',
+    type=click.FloatRange(0, 3.3),
+    show_default=True
+)
 @click.option(
     "--repeats",
     default=1,
