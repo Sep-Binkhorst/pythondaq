@@ -40,7 +40,7 @@ class UserInterface(QtWidgets.QMainWindow):
         self.stop.setMaximum(3.3)
         self.stop.setValue(0)
 
-        self.num = QtWidgets.QDoubleSpinBox()
+        self.num = QtWidgets.QSpinBox()
         self.num.setMinimum(0)
         self.num.setValue(0)
 
