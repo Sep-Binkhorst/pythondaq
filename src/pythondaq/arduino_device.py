@@ -15,7 +15,7 @@ class ArduinoVISADevice:
         Args:
             port (ASRL?::INSTR): Name of the port of the Arduino_
         """
-        self.device = rm.open_resource(f"{port}", read_termination="\r\n", write_termination="\n")
+        self.device = rm.open_resource(port, read_termination="\r\n", write_termination="\n")
 
     def get_identification(self):
         """_Function that provied the identification of your connected device_
