@@ -3,6 +3,8 @@ from pythondaq.diode_experiment import DiodeExperiment
 from PySide6 import QtWidgets
 from PySide6.QtCore import Slot
 import pyqtgraph as pg
+pg.setConfigOption("background", "w")
+pg.setConfigOption("foreground", "k")
 
 class UserInterface(QtWidgets.QMainWindow):
     pass
@@ -15,33 +17,64 @@ class UserInterface(QtWidgets.QMainWindow):
         self.setCentralWidget(central_widget)
         vbox = QtWidgets.QVBoxLayout(central_widget)
 
+        lhbox = QtWidgets.QHBoxLayout()
+        shbox = QtWidgets.QHBoxLayout()
+        vbox.addLayout(lhbox)
+        vbox.addLayout(shbox)
+
+        strlabel = QtWidgets.QLabel("Start")
+        stplabel = QtWidgets.QLabel("Stop")
+        numlabel = QtWidgets.QLabel("Repeats")
+
+        lhbox.addWidget(strlabel)
+        lhbox.addWidget(stplabel)
+        lhbox.addWidget(numlabel)
+
+        self.start = QtWidgets.QDoubleSpinBox()
+        self.start.setMinimum(0)
+        self.start.setValue(0)
+
+        self.stop = QtWidgets.QDoubleSpinBox()
+        self.stop.setMaximum(3.3)
+        self.stop.setValue(0)
+
+        self.num = QtWidgets.QDoubleSpinBox()
+        self.num.setMinimum(0)
+        self.num.setValue(0)
+
+        shbox.addWidget(self.start)
+        shbox.addWidget(self.stop)
+        shbox.addWidget(self.num)
+
         self.plot_widget = pg.PlotWidget()
         vbox.addWidget(self.plot_widget)
 
-    def scan(self):
-        start = 0
-        stop = 1023
-        repeats = 1
-        port = 8
+        start_button = QtWidgets.QPushButton("Start")
+        vbox.addWidget(start_button)
 
-        print(f"Work in progress, scan LED")
-
-        diodeexperiment = DiodeExperiment()
-        self.voltages, self.currents, self.v_errors, self.c_errors = diodeexperiment.scan(int(start), int(stop), int(repeats), f"ASRL{port}::INSTR")
+        start_button.clicked.connect(self.plot)
 
     @Slot()
     def plot(self):
-        self.plot_widget(self.voltages, self.currents, pen={"color": "m", "width": 5})
+        port = 8
+        self.plot_widget.clear()
+        print(f"Work in progress, scan LED")
+
+        diodeexperiment = DiodeExperiment()
+        self.voltages, self.currents, self.v_errors, self.c_errors = diodeexperiment.scan(int(self.start.value()), int(self.stop.value()), int(self.num.value()), f"ASRL{port}::INSTR")
+        
+        self.plot_widget.plot(self.voltages, self.currents, symbol="o", symbolSize=5, pen=None)
         self.plot_widget.setLabel("left", "currents")
         self.plot_widget.setLabel("bottom", "voltages")
 
-        error_bars = pg.ErrorBarItem(self.voltages, self.currents, width=2 * self.v_errors, height=2*self.c_errors)
-        self.plot_widget.addItem(error_bars)
+        # error_bars = pg.ErrorBarItem(x=self.voltages, y=self.currents, width=2 * self.v_errors, height=2*self.c_errors)
+        # self.plot_widget.addItem(error_bars)
+
+
 
 def main():
         app = QtWidgets.QApplication(sys.argv)
         ui = UserInterface()
-        ui.scan()
         ui.plot()
         ui.show()
         sys.exit(app.exec())
