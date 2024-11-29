@@ -74,11 +74,11 @@ class UserInterface(QtWidgets.QMainWindow):
         self.voltages, self.currents, self.v_errors, self.c_errors = diodeexperiment.scan(int(self.start.value()), int(self.stop.value()), int(self.num.value()), self.combo.currentText())
 
         self.plot_widget.plot(self.voltages, self.currents, symbol="o", symbolSize=5, pen=None)
-        self.plot_widget.setLabel("left", "currents")
-        self.plot_widget.setLabel("bottom", "voltages")
+        self.plot_widget.setLabel("left", "currents (A)")
+        self.plot_widget.setLabel("bottom", "voltages (V)")
 
-        # error_bars = pg.ErrorBarItem(x=self.voltages, y=self.currents, width=2 * np.array(self.v_errors), height=2 * np.array(self.c_errors))
-        # self.plot_widget.addItem(error_bars)
+        error_bars = pg.ErrorBarItem(x=np.array(self.voltages), y=np.array(self.currents), width=2 * np.array(self.v_errors), height=2 * np.array(self.c_errors))
+        self.plot_widget.addItem(error_bars)
 
 
     def save(self):
