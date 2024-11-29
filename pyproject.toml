@@ -6,12 +6,14 @@ authors = ["Sep-Binkhorst <sepbinkhorst@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = ">=3.12,<3.14"
 matplotlib = "^3.9.2"
 click = "^8.1.7"
 pyvisa-py = "^0.7.2"
 zeroconf = "^0.136.0"
 psutil = "^6.1.0"
+pyside6 = "^6.8.0.2"
+pyqtgraph = "^0.13.7"
 
 
 [build-system]
@@ -20,3 +22,4 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 diode = "pythondaq.cli:cmd_group"
+gui = "pythondaq.gui:main"

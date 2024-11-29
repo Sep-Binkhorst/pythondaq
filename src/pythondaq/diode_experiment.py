@@ -32,7 +32,7 @@ class DiodeExperiment:
         stop = stop * (1023/3.3)
 
         #Perform measurements within a predetermined range
-        for voltage in range(start, stop):
+        for voltage in range(int(start), int(stop)):
 
             voltages = []
             currents = []
