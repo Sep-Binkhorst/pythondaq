@@ -1,6 +1,5 @@
 import sys
 from pythondaq.diode_experiment import DiodeExperiment, list_resources
-from pythondaq.arduino_device import ArduinoVISADevice
 from PySide6 import QtWidgets
 from PySide6.QtCore import Slot
 import pyqtgraph as pg
@@ -9,9 +8,16 @@ pg.setConfigOption("background", "w")
 pg.setConfigOption("foreground", "k")
 
 class UserInterface(QtWidgets.QMainWindow):
+    """Class that creates the interface for you experiment.
+
+    Args:
+        QtWidgets: Functions to make the interface with.
+    """
     pass
 
     def __init__(self):
+        """Create the interface with labels, spinboxes and the plot.
+        """
 
         super().__init__()
 
@@ -66,6 +72,8 @@ class UserInterface(QtWidgets.QMainWindow):
 
     @Slot()
     def plot(self):
+        """Creates the plot of your results with predetermined values for the experiment.
+        """
         self.plot_widget.clear()
         print(f"Work in progress, scan LED")
 
@@ -82,15 +90,19 @@ class UserInterface(QtWidgets.QMainWindow):
 
 
     def save(self):
+        """Enables the user to save your results in a csv file with a chosen name.
+        """
         filename, _ = QtWidgets.QFileDialog.getSaveFileName(filter="CSV files (*.csv)")
 
 
 def main():
-        app = QtWidgets.QApplication(sys.argv)
-        ui = UserInterface()
-        ui.plot()
-        ui.show()
-        sys.exit(app.exec())
+    """Starts the interface.
+    """
+    app = QtWidgets.QApplication(sys.argv)
+    ui = UserInterface()
+    ui.plot()
+    ui.show()
+    sys.exit(app.exec())
 
 
 if __name__ == "__main__":
