@@ -1,5 +1,6 @@
 import sys
 from pythondaq.diode_experiment import DiodeExperiment, list_resources
+from pythondaq.arduino_device import ArduinoVISADevice
 from PySide6 import QtWidgets
 from PySide6.QtCore import Slot
 import pyqtgraph as pg
@@ -53,7 +54,7 @@ class UserInterface(QtWidgets.QMainWindow):
         list = list_resources()
         self.combo = QtWidgets.QComboBox()
         self.combo.addItems(list)
-
+        
         shbox.addWidget(self.start)
         shbox.addWidget(self.stop)
         shbox.addWidget(self.num)
@@ -69,6 +70,7 @@ class UserInterface(QtWidgets.QMainWindow):
         save_button = QtWidgets.QPushButton("Save")
         vbox.addWidget(save_button)
         save_button.clicked.connect(self.save)
+
 
     @Slot()
     def plot(self):
@@ -87,14 +89,15 @@ class UserInterface(QtWidgets.QMainWindow):
 
         error_bars = pg.ErrorBarItem(x=np.array(self.voltages), y=np.array(self.currents), width=2 * np.array(self.v_errors), height=2 * np.array(self.c_errors))
         self.plot_widget.addItem(error_bars)
-
+        
+        diodeexperiment.close()
 
     def save(self):
         """Enables the user to save your results in a csv file with a chosen name.
         """
         filename, _ = QtWidgets.QFileDialog.getSaveFileName(filter="CSV files (*.csv)")
-
-
+        
+        
 def main():
     """Starts the interface.
     """

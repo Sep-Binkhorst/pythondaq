@@ -19,7 +19,7 @@ class DiodeExperiment:
         Returns:
             _Averages and errors_: _lists with the averages of the voltages, currents and the errors on both these lists_
         """
-        device = ArduinoVISADevice(port)
+        self.device = ArduinoVISADevice(port)
 
         voltage_avrs = []
         current_avrs = []
@@ -82,3 +82,6 @@ class DiodeExperiment:
 
 
         return voltage_avrs, current_avrs, volt_devs_avrs, curt_devs_avrs
+    
+    def close(self):
+        self.device.close_arduino()
