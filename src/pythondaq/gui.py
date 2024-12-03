@@ -1,6 +1,5 @@
 import sys
 from pythondaq.diode_experiment import DiodeExperiment, list_resources
-from pythondaq.arduino_device import ArduinoVISADevice
 from PySide6 import QtWidgets
 from PySide6.QtCore import Slot
 import pyqtgraph as pg
@@ -34,10 +33,12 @@ class UserInterface(QtWidgets.QMainWindow):
         strlabel = QtWidgets.QLabel("Start (V)")
         stplabel = QtWidgets.QLabel("Stop (V)")
         numlabel = QtWidgets.QLabel("Repeats")
+        combolabel = QtWidgets.QLabel("Port")
 
         lhbox.addWidget(strlabel)
         lhbox.addWidget(stplabel)
         lhbox.addWidget(numlabel)
+        lhbox.addWidget(combolabel)
 
         self.start = QtWidgets.QDoubleSpinBox()
         self.start.setMinimum(0)
@@ -77,20 +78,24 @@ class UserInterface(QtWidgets.QMainWindow):
         """Creates the plot of your results with predetermined values for the experiment.
         """
         self.plot_widget.clear()
-        print(f"Work in progress, scan LED")
 
         diodeexperiment = DiodeExperiment()
-        self.combo.setCurrentIndex(1)
-        self.voltages, self.currents, self.v_errors, self.c_errors = diodeexperiment.scan(int(self.start.value()), int(self.stop.value()), int(self.num.value()), self.combo.currentText())
+        if self.start.value() > self.stop.value():
+            print("Starting value can not be higher than the stop value.")
+        elif self.num.value() == 0:
+            print("You can not run this experiment zero times.")
+        else:
+            print(f"Work in progress, scan LED")
+            self.voltages, self.currents, self.v_errors, self.c_errors = diodeexperiment.scan(int(self.start.value()), int(self.stop.value()), int(self.num.value()), self.combo.currentText())
 
-        self.plot_widget.plot(self.voltages, self.currents, symbol="o", symbolSize=5, pen=None)
-        self.plot_widget.setLabel("left", "currents (A)")
-        self.plot_widget.setLabel("bottom", "voltages (V)")
+            self.plot_widget.plot(self.voltages, self.currents, symbol="o", symbolSize=5, pen=None)
+            self.plot_widget.setLabel("left", "currents (A)")
+            self.plot_widget.setLabel("bottom", "voltages (V)")
 
-        error_bars = pg.ErrorBarItem(x=np.array(self.voltages), y=np.array(self.currents), width=2 * np.array(self.v_errors), height=2 * np.array(self.c_errors))
-        self.plot_widget.addItem(error_bars)
+            error_bars = pg.ErrorBarItem(x=np.array(self.voltages), y=np.array(self.currents), width=2 * np.array(self.v_errors), height=2 * np.array(self.c_errors))
+            self.plot_widget.addItem(error_bars)
         
-        diodeexperiment.close()
+            diodeexperiment.close()
 
     def save(self):
         """Enables the user to save your results in a csv file with a chosen name.
@@ -103,7 +108,6 @@ def main():
     """
     app = QtWidgets.QApplication(sys.argv)
     ui = UserInterface()
-    ui.plot()
     ui.show()
     sys.exit(app.exec())
 

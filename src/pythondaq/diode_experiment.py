@@ -40,10 +40,10 @@ class DiodeExperiment:
             #Perform all these measurements a certain amount of times.
             for repeat in range(0, repeats):
 
-                device.set_output_value(value=voltage)
+                self.device.set_output_value(value=voltage)
 
-                voltage_u1 = device.get_input_voltage(channel=1)
-                voltage_u2 = device.get_input_voltage(channel=2)
+                voltage_u1 = self.device.get_input_voltage(channel=1)
+                voltage_u2 = self.device.get_input_voltage(channel=2)
 
                 voltage_led = voltage_u1 - voltage_u2
                 voltages.append(voltage_led)
@@ -69,7 +69,7 @@ class DiodeExperiment:
         volt_devs_avrs = []
         curt_devs_avrs = []
 
-        device.set_output_value(0)
+        self.device.set_output_value(0)
 
         #Use the square root of N rule to calculate the final errors and put them in lists
         for dev in volt_devs:
